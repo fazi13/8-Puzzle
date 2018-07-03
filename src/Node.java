@@ -2,18 +2,25 @@
 public class Node implements Comparable<Node>{
 	private Board state;
 	private int f;
-	Node previous;
+	private Node previous;
+	private int steps;
 	
 	public Node() {
 		state = new Board();
 		f = 0;
 		previous = new Node();
+		steps = 0;
 	}
 	
-	public Node(Board b, int f, Node n) {
+	public Node(Board b, int h, Node n) {
 		state = b;
-		this.f = f;
 		previous = n;
+		if(n == null) {
+			steps = 0;
+		} else {
+			steps = n.getSteps() + 1;
+		}
+		f = h + steps;
 	}
 	
 	public Board getState() {
@@ -22,6 +29,10 @@ public class Node implements Comparable<Node>{
 	
 	public int getCost() {
 		return f;
+	}
+	
+	public int getSteps() {
+		return steps;
 	}
 	
 	public Node getPrevious() {

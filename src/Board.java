@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.Random;
 
 public class Board {
 	private int[] board;
@@ -52,7 +54,7 @@ public class Board {
 	//swaps index of array if one tile is 0
 	private void swap(int index1, int index2) {
 		if(board[index1] != 0 && board[index2] != 0) {
-			System.out.println("Error, must swap with empty(0) space: " + board[index1] + ", " + board[index2]);
+			//System.out.println("Error, must swap with empty(0) space: " + board[index1] + ", " + board[index2]);
 		} else {
 			int temp = board[index1];
 			board[index1] = board[index2];
@@ -61,35 +63,43 @@ public class Board {
 	}
 	
 	//swaps with blank tile
-	public void swapLeft(int index) {
+	public boolean swapLeft(int index) {
 		if(index%3 == 0) {
 			//System.out.println("Error, index is at left most: " + index);
+			return false;
 		} else {
 			swap(index, index-1);
+			return true;
 		}
 	}
 	
-	public void swapRight(int index) {
+	public boolean swapRight(int index) {
 		if(index%3 == 2) {
 			//System.out.println("Error, index is at right most: " + index);
+			return false;
 		} else {
 			swap(index, index+1);
+			return true;
 		}
 	}
 	
-	public void swapUp(int index) {
+	public boolean swapUp(int index) {
 		if(index < 3) {
 			//System.out.println("Error, index is at top most: " + index);
+			return false;
 		} else {
 			swap(index, index-3);
+			return true;
 		}
 	}
 	
-	public void swapDown(int index) {
+	public boolean swapDown(int index) {
 		if(index > 5) {
 			//System.out.println("Error, index is at bottom most: " + index);
+			return false;
 		} else {
 			swap(index, index+3);
+			return true;
 		}
 	}
 	
@@ -123,15 +133,15 @@ public class Board {
 		int count = 0;
 		int num = board[i];
 		
-		//ignore blank tile
+		/*//ignore blank tile
 		if(num == 0) {
 			return 0;
-		}
+		}*/
 		
-		//no need to count
+		/*//no need to count
 		if(isCorrectIndex(i)) {
 			return 0;
-		}
+		}*/
 		
 		//start counting and ignore 0
 		for(; i < board.length; i++) {
@@ -149,6 +159,15 @@ public class Board {
 			}
 		}
 		return -1;
+	}
+	
+	public void random() {
+		board = SOL_INTS;
+		Random random = new Random();
+		int count = board.length;
+		for(int i = count; i > 1; i--) {
+			swap(i-1, random.nextInt(i));
+		}
 	}
 	
 	//checks if 2 boards are equal

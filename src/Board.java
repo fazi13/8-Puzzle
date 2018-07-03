@@ -63,7 +63,7 @@ public class Board {
 	//swaps with blank tile
 	public void swapLeft(int index) {
 		if(index%3 == 0) {
-			System.out.println("Error, index is at left most: " + index);
+			//System.out.println("Error, index is at left most: " + index);
 		} else {
 			swap(index, index-1);
 		}
@@ -71,7 +71,7 @@ public class Board {
 	
 	public void swapRight(int index) {
 		if(index%3 == 2) {
-			System.out.println("Error, index is at right most: " + index);
+			//System.out.println("Error, index is at right most: " + index);
 		} else {
 			swap(index, index+1);
 		}
@@ -79,7 +79,7 @@ public class Board {
 	
 	public void swapUp(int index) {
 		if(index < 3) {
-			System.out.println("Error, index is at top most: " + index);
+			//System.out.println("Error, index is at top most: " + index);
 		} else {
 			swap(index, index-3);
 		}
@@ -87,14 +87,14 @@ public class Board {
 	
 	public void swapDown(int index) {
 		if(index > 5) {
-			System.out.println("Error, index is at bottom most: " + index);
+			//System.out.println("Error, index is at bottom most: " + index);
 		} else {
 			swap(index, index+3);
 		}
 	}
 	
 	//checks if number at index is correct
-	private boolean correctIndex(int i) {
+	public boolean isCorrectIndex(int i) {
 		return board[i] == SOLUTION.getBoard()[i];
 	}
 	
@@ -129,7 +129,7 @@ public class Board {
 		}
 		
 		//no need to count
-		if(correctIndex(i)) {
+		if(isCorrectIndex(i)) {
 			return 0;
 		}
 		
@@ -140,6 +140,15 @@ public class Board {
 			}
 		}
 		return count;
+	}
+	
+	public int find(int num) {
+		for(int i = 0; i < board.length; i++) {
+			if(num == board[i]) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	//checks if 2 boards are equal
@@ -172,5 +181,13 @@ public class Board {
 			output += board[i] + " ";
 		}
 		return output;
+	}
+	
+	public static Board copy(Board b) {
+		int[] temp = new int[b.getBoard().length];
+		for(int i = 0; i < temp.length; i++) {
+			temp[i] = b.getBoard()[i];
+		}
+		return new Board(temp);
 	}
 }

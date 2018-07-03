@@ -19,8 +19,7 @@ public class PuzzleTester {
 		
 		//int[] gb = {1, 2, 3, 4, 0, 5, 8, 6, 7};
 		//Board gameboard = new Board(gb);
-		System.out.println(gameboard);
-		System.out.println(gameboard.isSolvable());
-	}
-
+		Solver solve = new Solver(gameboard, "h1");
+		solve.Solve("true");
+	}	
 }

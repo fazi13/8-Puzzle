@@ -1,49 +1,56 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PuzzleTester {
 
-	public static void main(String[] args) {
-		/*Board gameboard = new Board();
+	public static void main(String[] args) throws FileNotFoundException {
+		Board gameboard = new Board();
 		Scanner kb = new Scanner(System.in);
-		System.out.print("Options: input board(i), random board(r): ");
+		System.out.print("Options: input board(i), random board(r), read from file(f): ");
 		String option = kb.nextLine().trim();
+		ArrayList<Board> input = new ArrayList<>();
 		if(option.equalsIgnoreCase("i")) {
 			System.out.println("Input gameboard: ");
-			String input = "";
+			String s = "";
 			while(true) {
 				String line = kb.nextLine().trim();
 				if(line.equals("")) {
 					break;
 				}
-				input += line + " ";
+				s += line + " ";
 			}
-			gameboard = new Board(input);
+			input.add(new Board(s.trim()));
 		} else if(option.equalsIgnoreCase("r")) {
 			gameboard.random();
-			System.out.println(gameboard);
-		}*/
-		
-		//int[] gb = {1, 2, 3, 4, 0, 5, 8, 6, 7};
-		//Board gameboard = new Board(gb);
-		//Solver solve = new Solver(gameboard, "h1");
-		//solve.Solve("true");
-		//kb.close();
-		int runs = 10;
-		ArrayList<Board> boardList = new ArrayList<Board>();
-		ArrayList<Solver> solverList = new ArrayList<Solver>();
-		for(int i = 0; i < runs; i++) {
-			Board gb = new Board();
-			gb.random();
-			boardList.add(Board.copy(gb));
+			input.add(gameboard);
+		} else if(option.equalsIgnoreCase("f")) {
+			System.out.print("filename: ");
+			File f = new File(kb.nextLine().trim());
+			Scanner reader = new Scanner(f);
+			while(reader.hasNextLine()) {
+				String in = reader.nextLine();
+				if(!in.contains("Depth"))
+					input.add(new Board(in.trim()));
+			}
+			reader.close();
 		}
-		for(int i = 0; i < runs; i++) {
-			Solver solve = new Solver(boardList.get(i), "h1");
-			solve.Solve("false");
-			solverList.add(solve);
+		boolean verbose = false;
+		String h = "";
+		System.out.print("verbose (y/n): ");
+		option = kb.nextLine().trim();
+		if(option.equalsIgnoreCase("y")) {
+			verbose = true;
 		}
-		for(int i = 0; i < runs; i++) {
-			System.out.println(solverList.get(i).getDepth() + ", "+ solverList.get(i).getNodeCount());
+		System.out.print("heuristic (h1/h2): ");
+		h = kb.nextLine().trim();
+		for(int i = 0; i < input.size(); i++) {
+			gameboard = input.get(i);
+			Solver s = new Solver(gameboard);
+			s.Solve(verbose, h);
 		}
+		System.out.println("Closing program..");
+		kb.close();
 	}	
 }

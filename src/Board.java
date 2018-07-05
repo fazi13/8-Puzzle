@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.Random;
 
 public class Board {
@@ -152,6 +151,39 @@ public class Board {
 		return count;
 	}
 	
+	public int distToGoal(int index) {
+		if(board[index] == 0) {
+			return 0;
+		}
+		if(isCorrectIndex(index)) {
+			return 0;
+		}
+		int dist = 0;
+		int county = 0;
+		int solIndex = board[index];
+		int solY = 0;
+		if(solIndex < 3) {
+			solY = 0;
+		} else if(solIndex < 6) {
+			solY = 1;
+		} else {
+			solY = 2;
+		}
+		int indY = 0;
+		if(index < 3) {
+			indY = 0;
+		}else if(index < 6) {
+			indY = 1;
+		}else {
+			indY = 2;
+		}
+		county = Math.abs(solY-indY);
+		int countx = Math.abs(index%3 - solIndex%3);
+		dist = countx + county;
+		return dist;
+	}
+	
+	//returns index of the number
 	public int find(int num) {
 		for(int i = 0; i < board.length; i++) {
 			if(num == board[i]) {
@@ -164,9 +196,9 @@ public class Board {
 	public void random() {
 		board = SOL_INTS;
 		Random random = new Random();
-		int count = board.length;
-		for(int i = count; i > 1; i--) {
-			swap(i-1, random.nextInt(i));
+		random.nextInt();
+		for(int i = 0; i < board.length; i++) {
+			swap(i, i + random.nextInt(board.length - i));
 		}
 	}
 	
